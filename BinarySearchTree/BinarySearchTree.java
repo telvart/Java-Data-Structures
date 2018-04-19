@@ -50,14 +50,21 @@ public class BinarySearchTree {
 		return search(val, m_root);
 	}
 	
+
 	public void deleteMin()
 	{
+		if(m_root == null)
+			return;
 		
+		deleteMin(m_root);
 	}
 	
 	public void deleteMax()
 	{
+		if(m_root == null)
+			return;
 		
+		deleteMax(m_root);
 	}
 	
 	public void deleteValue() //generic delete
@@ -65,8 +72,24 @@ public class BinarySearchTree {
 		
 	}
 	
-
-
+	public Node findMin(Node subtree)
+	{
+		Node cur = subtree;
+		while(cur.m_left != null)
+			cur = cur.m_left;
+		
+		return cur;
+	}
+	
+	public Node findMax(Node subtree)
+	{
+		Node cur = subtree;
+		while(cur.m_right != null)
+			cur = cur.m_right;
+		
+		return cur;
+	}
+	
 	public void inOrder()
 	{
 		inOrder(m_root);
@@ -83,6 +106,30 @@ public class BinarySearchTree {
 	{
 		postOrder(m_root);
 		System.out.println();
+	}
+	
+	public void levelOrder()
+	{
+//		 if(m_root == nullptr) {return;}
+//
+//		  Queue<BSTNode<T>*> queue = Queue<BSTNode<T>*>();
+//		  queue.enqueue(m_root);
+//
+//		  while(!queue.isEmpty())
+//		  {
+//		    BSTNode<T>* currentNode = queue.dequeue();
+//		    std::cout<<currentNode->getValue()<<" ";
+//
+//		    if(currentNode->getLeft() != nullptr)
+//		    {
+//		      queue.enqueue(currentNode->getLeft());
+//		    }
+//		    if(currentNode->getRight() != nullptr)
+//		    {
+//		      queue.enqueue(currentNode->getRight());
+//		    }
+//		  }
+//		  std::cout<<std::endl;
 	}
 	
 /*
@@ -127,6 +174,72 @@ public class BinarySearchTree {
 		return null;
 	}
 	
+	private void deleteMin(Node subtree)
+	{
+		if((subtree == m_root) && m_root.m_left == null)
+		{
+			m_root = m_root.m_right;
+			m_entries--;
+			return;
+		}
+		if(subtree.m_left != null)
+		{
+			if (subtree.m_left.m_left != null)
+			{
+				deleteMin(subtree.m_left);
+			}
+			else
+			{
+				if(subtree.m_left.m_right != null)
+				{
+					subtree.m_left = subtree.m_left.m_right;
+					m_entries--;
+				}
+				else
+				{
+					subtree.m_left = null;
+					m_entries--;
+				}
+			}
+		}
+	}
+	
+	private void deleteMax(Node subtree)
+	{
+//		if(subtree == m_root && subtree->getRight() == nullptr)
+//		  {
+//		    BSTNode<T>* temp = subtree;
+//		    m_root = subtree->getLeft();
+//		    m_entries--;
+//		    delete temp;
+//		    return;
+//		  }
+//		  if(subtree->getRight() != nullptr)
+//		  {
+//		    if(subtree->getRight()->getRight() != nullptr)
+//		    {
+//		      deleteMax(subtree->getRight());
+//		    }
+//		    else
+//		    {
+//		      if(subtree->getRight()->getLeft() != nullptr)
+//		      {
+//		        BSTNode<T>* temp = subtree->getRight();
+//		        subtree->setRight(subtree->getRight()->getLeft());
+//		        m_entries--;
+//		        delete temp;
+//		      }
+//		      else
+//		      {
+//		        m_entries--;
+//		        delete subtree->getRight();
+//		        subtree->setRight(nullptr);
+//		      }
+//		    }
+//		  }
+
+	}
+	
 	private void inOrder(Node subtree)
 	{
 		if (subtree == null) {return;}
@@ -161,6 +274,17 @@ public class BinarySearchTree {
 		{
 			t.insert(2 * i);
 		}
+		
+		t.inOrder();
+		t.preOrder();
+		t.postOrder();
+		
+		t.deleteMin();
+		t.deleteMin();
+		t.deleteMin();
+		
+		System.out.println();
+		
 		t.inOrder();
 		t.preOrder();
 		t.postOrder();
